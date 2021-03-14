@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>World Conference 2020</title>
+</head>
+<body>
+
+<h1>The World Conference will be held Orlando, Florida!</h1>
+<p>This is a paragraph.</p>
+
+<img src="img_Orlando.jpg">
+
+<button onclick="form.page.com">Register</button>
+
+</body>
+</html>
