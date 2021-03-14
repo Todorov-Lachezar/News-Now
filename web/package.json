@@ -1,0 +1,29 @@
+{
+  "name": "news-now-web",
+  "version": "0.1.0",
+  "description": "News Now Web App",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [
+    "news",
+    "now",
+    "team",
+    "11"
+  ],
+  "author": "Team 11",
+  "license": "ISC",
+  "dependencies": {
+    "next": "^10.0.8",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.34",
+    "@types/react": "^17.0.3",
+    "typescript": "^4.2.3"
+  }
+}
