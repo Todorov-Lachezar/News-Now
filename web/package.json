@@ -21,7 +21,9 @@
     "evergreen-ui": "^5.1.2",
     "next": "^10.0.8",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-stonecutter": "^0.3.10",
+    "reset-css": "^5.0.1"
   },
   "devDependencies": {
     "@types/node": "^14.14.34",
