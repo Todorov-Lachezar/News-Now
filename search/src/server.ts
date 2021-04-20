@@ -1,4 +1,9 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import { Consumer, SQSMessage } from 'sqs-consumer';
+import { textToKeywords, Transcribe } from './utils/transcribe';
+import { getNews } from './services/news';
 
 const handleMessage = async (message: SQSMessage) => {
   console.log(`Processing new message: ${message.MessageId}`);
@@ -7,10 +12,20 @@ const handleMessage = async (message: SQSMessage) => {
     throw new Error("Message doesn't contain a body");
   }
 
-  const { filePath, content } = JSON.parse(message.Body).responsePayload;
+  const audioTranscribeResult = JSON.parse(message.Body).responsePayload
+    .content as Transcribe;
 
-  console.log(`Recieved file (${filePath}): `);
-  console.log(content);
+  if (audioTranscribeResult.results.transcripts.length === 0) {
+    throw new Error('Transcribe result does not have any transcription');
+  }
+
+  const keywords = textToKeywords(
+    audioTranscribeResult.results.transcripts[0].transcript
+  );
+
+  const res = await getNews(keywords);
+
+  console.log(JSON.stringify(res, undefined, 2));
 };
 
 const app = Consumer.create({
@@ -19,7 +34,7 @@ const app = Consumer.create({
 });
 
 app.on('message_processed', (message: SQSMessage) => {
-  console.log(`Successfully processed (${message.MessageId})`);
+  console.log(`Successfully processed: ${message.MessageId}`);
 });
 
 app.on('error', (err) => {

@@ -20,15 +20,21 @@ router.post('/', (req, res) => {
           return res.status(400).send();
         }
 
+        const jobName = `${filename}-${Date.now()}`;
+
         transcribe.startTranscriptionJob(
           {
-            TranscriptionJobName: `${filename}-${Date.now()}`,
+            TranscriptionJobName: jobName,
             LanguageCode: 'en-US',
             MediaFormat: 'mp3',
             OutputBucketName: 'news-now-s3',
-            OutputKey: `transcriptions/${filename}.json`,
+            OutputKey: `transcriptions/${jobName}.json`,
             Media: {
               MediaFileUri: `s3://${data.Bucket}/recordings/${filename}`
+            },
+            Settings: {
+              VocabularyFilterName: 'stopwords',
+              VocabularyFilterMethod: 'remove'
             }
           },
           (err, data) => {
