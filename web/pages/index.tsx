@@ -12,9 +12,20 @@ const recorder = new MicRecorder({
 })
 
 let isRecording:boolean = false
+var clicked:boolean = false
 
 function startRecord(recorder) {
     let win
+    if (!clicked) {
+        var text = document.getElementById("click_me")
+        text.innerText = "Click again to search for news!"
+        clicked = true
+    } else {
+        var text = document.getElementById("click_me")
+        text.innerText = "Click me and ask for some news!"
+        stopRecord(recorder)
+        clicked = false
+    }
     try {
         win = window
         recorder.start().then(() => {})
@@ -55,22 +66,23 @@ const HomePage: React.FC = () => (
         <link rel="stylesheet" href="/styles/styles.css"/>
         <Container>
             <Header />
-            <button onClick={() => stopRecord(recorder)}>play</button>
         </Container>
         <Pane display="flex" width="100%" justifyContent="center" marginTop={250}>
-            <Text fontSize="20px" fontWeight="bold"> Click me and ask for some news! </Text>
+            <Text fontSize="20px" fontWeight="bold" id="click_me">
+             Click me and ask for some news! </Text>
         </Pane>
         <Pane display="flex" width="100%" justifyContent="center" marginTop={20}>  
             <motion.div drag="x"
                         dragConstraints={{ left: -100, right: 100 }}
                         whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}>
-            <Image src="/mic_off.png"
-                    alt="mic_offs"
-                    width={120}
-                    height={120} onClick={() => startRecord(recorder)}
-                    className="img-container"
-                    />
+                        whileTap={{ scale: 0.9, color: "#FF0000" }}>
+                <Image src="/mic_off.png"
+                        alt="mic_button"
+                        width={120}
+                        height={120} onClick={() => startRecord(recorder)}
+                        className="img-container"
+                        id="mic_img"
+                        />
             </motion.div>
         </Pane>
     </Pane>
