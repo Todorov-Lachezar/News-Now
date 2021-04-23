@@ -13,7 +13,7 @@ const Header: React.FC = () => (
         height={48}
         width="100%"
         placeholder="Search"
-        value="Give me news about bitcoin..."
+        // value="Give me news about bitcoin..."
       />
     </Pane>
   </Pane>
