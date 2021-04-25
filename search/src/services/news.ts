@@ -7,7 +7,9 @@ export const getNews = async (keywords: string[]): Promise<NewsResponse> => {
     throw new Error('At least one keyword is required');
   }
 
-  const query = encodeURI(keywords.join(' OR '));
+  const query = encodeURI(keywords.join(' '));
+
+  console.log(query);
   const { data } = await axios.get<NewsResponse>(`${API_URL}&q=${query}`);
 
   return data;

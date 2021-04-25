@@ -31,12 +31,13 @@ const handleMessage = async (message: SQSMessage) => {
   );
 
   const res = await getNews(keywords);
+  const { transcript } = audioTranscribeResult.results.transcripts[0];
 
   s3.upload(
     {
       Bucket: 'news-now-s3',
       Key: `results/${resultId}.json`,
-      Body: Buffer.from(JSON.stringify(res), 'utf-8')
+      Body: Buffer.from(JSON.stringify({ ...res, transcript }), 'utf-8')
     },
     (err: Error, data: AWS.S3.ManagedUpload.SendData) => {
       if (err) {

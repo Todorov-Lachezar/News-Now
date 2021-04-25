@@ -27,6 +27,7 @@
     "react-dom": "^17.0.1",
     "react-stonecutter": "^0.3.10",
     "reset-css": "^5.0.1",
+    "use-http": "^1.0.20",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

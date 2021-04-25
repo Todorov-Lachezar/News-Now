@@ -5,9 +5,19 @@ type NewsItemProps = {
   title: string;
   description: string;
   image: string;
+  author: string;
+  publishedAt: string;
+  url: string;
 };
 
-const NewsItem: React.FC<NewsItemProps> = ({ title, description, image }) => (
+const NewsItem: React.FC<NewsItemProps> = ({
+  title,
+  description,
+  image,
+  author,
+  publishedAt,
+  url
+}) => (
   <Pane width={300} background="tint1" borderRadius={5} elevation={1}>
     <Pane
       width={300}
@@ -20,11 +30,15 @@ const NewsItem: React.FC<NewsItemProps> = ({ title, description, image }) => (
     />
     <Pane width="100%" padding={8}>
       <Paragraph>
-        <Small>Yahoo Finance · 3 hours ego</Small>
+        <Small>
+          {author} · {new Date(publishedAt).toLocaleDateString()}
+        </Small>
       </Paragraph>
-      <Heading marginTop={4} marginBottom={10}>
-        {title}
-      </Heading>
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        <Heading marginTop={4} marginBottom={10}>
+          {title}
+        </Heading>
+      </a>
       <Paragraph>{description}</Paragraph>
     </Pane>
   </Pane>

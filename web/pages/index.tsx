@@ -94,9 +94,7 @@ const HomePage: React.FC = () => {
       background="blueTint"
     >
       <link rel="stylesheet" href="/styles/styles.css" />
-      <Container>
-        <Header />
-      </Container>
+
       <Pane display="flex" width="100%" justifyContent="center" marginTop={250}>
         <Text fontSize="20px" fontWeight="bold" id="click_me">
           Click me and ask for some news!{' '}
