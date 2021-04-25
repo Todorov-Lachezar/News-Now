@@ -27,9 +27,11 @@
   "devDependencies": {
     "@tsconfig/node12": "^1.0.7",
     "@types/busboy": "^0.2.3",
+    "@types/cors": "^2.8.10",
     "@types/express": "^4.17.11",
     "@types/morgan": "^1.9.2",
     "@types/node": "^14.14.37",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/parser": "^4.21.0",
     "eslint": "^7.23.0",
@@ -42,8 +44,10 @@
   "dependencies": {
     "aws-sdk": "^2.883.0",
     "busboy": "^0.3.1",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "uuid": "^3.3.2"
   }
 }

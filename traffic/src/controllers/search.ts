@@ -2,6 +2,7 @@ import { Router } from 'express';
 import Busboy from 'busboy';
 import AWS from 'aws-sdk';
 import { PassThrough } from 'stream';
+import { v4 as generateUUID } from 'uuid';
 
 AWS.config.update({ region: 'us-east-1' });
 
@@ -20,7 +21,7 @@ router.post('/', (req, res) => {
           return res.status(400).send();
         }
 
-        const jobName = `${filename}-${Date.now()}`;
+        const jobName = generateUUID();
 
         transcribe.startTranscriptionJob(
           {
@@ -43,7 +44,7 @@ router.post('/', (req, res) => {
               return res.status(400).send();
             }
 
-            return res.json(data);
+            return res.json({ id: jobName, data });
           }
         );
       })
