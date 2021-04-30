@@ -9,7 +9,12 @@
 
 ## Deployment steps
 
-You will need to export the following environment variables:
+You need to first upload our stopwords list to AWS Transcribe. Within the AWS Console,
+navigate to `Amazon Transcribe > Vocabulary Filtering` and click on `Create vocabulary filter`.
+Name the vocabulary filter `stopwords`, select `English, US (en-US)` for language, `file upload` for Vocabulary input source and upload the `stopwords.txt` file located at the root of this project.
+Finally click on `Create vocabulary filter`.
+
+Once thats is done, you will need to export the following environment variables:
 
 ```
 AWS_REGION=your-region-here
