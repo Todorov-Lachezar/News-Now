@@ -4,7 +4,7 @@ import AWS from 'aws-sdk';
 import { PassThrough } from 'stream';
 import { v4 as generateUUID } from 'uuid';
 
-AWS.config.update({ region: 'us-east-1' });
+AWS.config.update({ region: process.env.AWS_REGION });
 
 const router = Router();
 const s3 = new AWS.S3();
@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
             TranscriptionJobName: jobName,
             LanguageCode: 'en-US',
             MediaFormat: 'mp3',
-            OutputBucketName: 'news-now-s3',
+            OutputBucketName: process.env.BUCKET_NAME,
             OutputKey: `transcriptions/${jobName}.json`,
             Media: {
               MediaFileUri: `s3://${data.Bucket}/recordings/${filename}`
@@ -63,7 +63,8 @@ function uploadFromStream(
 
   s3.upload(
     {
-      Bucket: 'news-now-s3',
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      Bucket: process.env.BUCKET_NAME!,
       Key: `recordings/${filename}`,
       Body: pass,
       Tagging: 'public=yes'

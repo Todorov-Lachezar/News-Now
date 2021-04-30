@@ -2,7 +2,7 @@ from node:14
 
 WORKDIR /usr/app
 
-EXPOSE 5000/tcp
+EXPOSE 8080
 
 COPY package.json .
 

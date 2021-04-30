@@ -6,7 +6,11 @@ import * as iam from "@aws-cdk/aws-iam";
 import * as sqs from "@aws-cdk/aws-sqs";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as destinations from "@aws-cdk/aws-lambda-destinations";
+import * as ec2 from "@aws-cdk/aws-ec2";
+import * as ecs from "@aws-cdk/aws-ecs";
+import * as ecsPatterns from "@aws-cdk/aws-ecs-patterns";
 import { S3EventSource } from "@aws-cdk/aws-lambda-event-sources";
+import * as uuid from "uuid";
 
 export class DeployStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -26,7 +30,9 @@ export class DeployStack extends cdk.Stack {
       destinationBucket: webBucket,
     });
 
+    const newsNowBucketName = `news-now-${uuid.v4()}`;
     const newsNowBucket = new s3.Bucket(this, "NewsNowBucket", {
+      bucketName: newsNowBucketName,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
@@ -55,6 +61,39 @@ export class DeployStack extends cdk.Stack {
         events: [s3.EventType.OBJECT_CREATED],
         filters: [{ prefix: "transcriptions/", suffix: ".json" }],
       })
+    );
+
+    const vpc = new ec2.Vpc(this, "NewsNowVPC", {
+      maxAzs: 3,
+    });
+
+    const cluster = new ecs.Cluster(this, "NewsNowCluster", {
+      vpc,
+    });
+
+    new ecsPatterns.ApplicationLoadBalancedFargateService(
+      this,
+      "NewsNowTrafficService",
+      {
+        cluster,
+        cpu: 512,
+        desiredCount: 3,
+        taskImageOptions: {
+          image: ecs.ContainerImage.fromRegistry(
+            "camilo86/swen-team-11:traffic"
+          ),
+          environment: {
+            BUCKET_NAME: newsNowBucketName,
+            AWS_REGION: process.env.AWS_REGION!,
+            AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID!,
+            AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY!,
+            AWS_SESSION_TOKEN: process.env.AWS_SESSION_TOKEN!,
+          },
+          containerPort: 8080,
+        },
+        memoryLimitMiB: 2048,
+        publicLoadBalancer: true,
+      }
     );
   }
 }
