@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
-import { Pane, Text } from 'evergreen-ui';
-import Container from '../components/container';
-import Header from '../components/header';
+import { IconButton, Pane, Text, RecordIcon } from 'evergreen-ui';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useRouter } from 'next/dist/client/router';
@@ -107,14 +104,12 @@ const HomePage: React.FC = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9, color: '#FF0000' }}
         >
-          <Image
-            src="/mic_off.png"
-            alt="mic_button"
-            width={120}
-            height={120}
+          <IconButton
+            icon={RecordIcon}
+            intent="danger"
+            height={100}
+            borderRadius="100%"
             onClick={() => startRecord(recorder)}
-            className="img-container"
-            id="mic_img"
           />
         </motion.div>
       </Pane>

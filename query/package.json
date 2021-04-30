@@ -1,0 +1,14 @@
+{
+  "name": "news-now-lambda",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Lachezar Todorov",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.896.0"
+  }
+}
