@@ -3,9 +3,10 @@
 ## Prerequisites
 
 - Node 12 or above
+- AWS CLI
+  - https://aws.amazon.com/cli/
 - AWS CDK Toolkit
   - Install by running: `npm install -g aws-cdk`
-- AWS Account of course
 
 ## Deployment steps
 
@@ -24,12 +25,13 @@ AWS_SECRET_ACCESS_KEY=your-access-here
 NEWS_API_KEY=879bea30fb7e461caae3d1af1fd452d1
 ```
 
-Once you have exported the environment variables, run the following commands within the `deploy` folder:
+Finally, run the following commands within the `deploy` folder:
 
-1. `cdk bootstrap`
-2. `cdk deploy`
+```
+npm install
+node deploy.js
+```
 
-At this point you should have News Now configured in your AWS account.
-Visit the AWS Console, search for `S3` and look for the bucket containing the name `NewsNowWeb...`. Copy the `index.html` file's public url and visit that URL in your browser.
+The script will print the website's URL once everything is ready.
 
-You should now be able to use News Now
+You should now be able to use News Now.
