@@ -1,14 +1,17 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+import express from 'express';
 import AWS from 'aws-sdk';
 import { Consumer, SQSMessage } from 'sqs-consumer';
 import { textToKeywords, Transcribe } from './utils/transcribe';
 import { getNews } from './services/news';
 
-AWS.config.update({ region: 'us-east-1' });
+AWS.config.update({ region: process.env.AWS_REGION });
 
 const s3 = new AWS.S3();
+const server = express();
+const port = process.env.PORT || 8080;
 
 const handleMessage = async (message: SQSMessage) => {
   console.log(`Processing new message: ${message.MessageId}`);
@@ -35,7 +38,7 @@ const handleMessage = async (message: SQSMessage) => {
 
   s3.upload(
     {
-      Bucket: 'news-now-s3',
+      Bucket: process.env.BUCKET_NAME!,
       Key: `results/${resultId}.json`,
       Body: Buffer.from(JSON.stringify({ ...res, transcript }), 'utf-8')
     },
@@ -49,7 +52,7 @@ const handleMessage = async (message: SQSMessage) => {
 };
 
 const app = Consumer.create({
-  queueUrl: 'https://sqs.us-east-1.amazonaws.com/349542123908/news-now-queue',
+  queueUrl: process.env.QUEUE_URL,
   handleMessage
 });
 
@@ -65,4 +68,9 @@ app.on('processing_error', (err) => {
   console.error(err);
 });
 
+server.get('/', (req, res) => res.json({ message: 'Search service is ok!' }));
+
 app.start();
+server.listen(port, () =>
+  console.log(`Search service is running in port ${port}`)
+);

@@ -26,6 +26,7 @@
   "homepage": "https://github.com/swen-514-614-spring2021/term-project--team-11#readme",
   "devDependencies": {
     "@tsconfig/node12": "^1.0.7",
+    "@types/express": "^4.17.11",
     "@types/node": "^14.14.41",
     "eslint": "^7.24.0",
     "eslint-config-prettier": "^8.2.0",
@@ -37,6 +38,7 @@
     "aws-sdk": "^2.892.0",
     "axios": "^0.21.1",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "sqs-consumer": "^5.5.0"
   }
 }

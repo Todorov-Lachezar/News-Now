@@ -67,7 +67,7 @@ export class DeployStack extends cdk.Stack {
       maxAzs: 3,
     });
 
-    const cluster = new ecs.Cluster(this, "NewsNowCluster", {
+    const trafficCluster = new ecs.Cluster(this, "NewsNowTrafficCluster", {
       vpc,
     });
 
@@ -75,7 +75,7 @@ export class DeployStack extends cdk.Stack {
       this,
       "NewsNowTrafficService",
       {
-        cluster,
+        cluster: trafficCluster,
         cpu: 512,
         desiredCount: 3,
         taskImageOptions: {
@@ -88,6 +88,37 @@ export class DeployStack extends cdk.Stack {
             AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID!,
             AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY!,
             AWS_SESSION_TOKEN: process.env.AWS_SESSION_TOKEN!,
+          },
+          containerPort: 8080,
+        },
+        memoryLimitMiB: 2048,
+        publicLoadBalancer: true,
+      }
+    );
+
+    const searchCluster = new ecs.Cluster(this, "NewsNowSearchCluster", {
+      vpc,
+    });
+
+    new ecsPatterns.ApplicationLoadBalancedFargateService(
+      this,
+      "NewsNowSearchService",
+      {
+        cluster: searchCluster,
+        cpu: 512,
+        desiredCount: 3,
+        taskImageOptions: {
+          image: ecs.ContainerImage.fromRegistry(
+            "camilo86/swen-team-11:search"
+          ),
+          environment: {
+            BUCKET_NAME: newsNowBucketName,
+            AWS_REGION: process.env.AWS_REGION!,
+            AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID!,
+            AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY!,
+            AWS_SESSION_TOKEN: process.env.AWS_SESSION_TOKEN!,
+            NEWS_API_KEY: process.env.NEWS_API_KEY!,
+            QUEUE_URL: queue.queueUrl,
           },
           containerPort: 8080,
         },
