@@ -16,22 +16,6 @@ export class DeployStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const webBucketName = `news-now-web-${uuid.v4()}`;
-    const webBucket = new s3.Bucket(this, "NewsNowWebBucket", {
-      bucketName: webBucketName,
-      publicReadAccess: true,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      websiteIndexDocument: "index.html",
-      websiteErrorDocument: "404.html",
-    });
-
-    // new s3Deploy.BucketDeployment(this, "DeployNewsNowWeb", {
-    //   sources: [
-    //     s3Deploy.Source.asset(path.join(__dirname, "..", "..", "web", "out")),
-    //   ],
-    //   destinationBucket: webBucket,
-    // });
-
     const newsNowBucketName = `news-now-${uuid.v4()}`;
     const newsNowBucket = new s3.Bucket(this, "NewsNowBucket", {
       bucketName: newsNowBucketName,
@@ -131,10 +115,6 @@ export class DeployStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, "NEWS_NOW_API_URL", {
       value: trafficFargate.loadBalancer.loadBalancerDnsName,
-    });
-
-    new cdk.CfnOutput(this, "NEWS_NOW_WEB_BUCKET_NAME", {
-      value: webBucketName,
     });
   }
 }

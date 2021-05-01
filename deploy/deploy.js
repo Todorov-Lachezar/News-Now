@@ -42,34 +42,20 @@ const envs = {
   NEXT_PUBLIC_API_URL: `http://${DeployStack.NEWSNOWAPIURL}`,
 };
 
-console.log("🔨 Building web...");
+console.log("🔨 Installing web dependencies...");
 
-spawnSync("npm", ["run", "build"], {
+spawnSync("npm", ["install"], {
   cwd: path.join(__dirname, "..", "web"),
   env: { ...process.env, ...envs },
   stdio: ["pipe", "inherit", "inherit"],
   encoding: "utf-8",
 });
 
-console.log("⬆️ Uploading website...");
+console.log("🔥 Running web...");
 
-spawnSync(
-  "aws",
-  [
-    "s3",
-    "sync",
-    path.join(__dirname, "..", "web", "out"),
-    `s3://${DeployStack.NEWSNOWWEBBUCKETNAME}`,
-  ],
-  {
-    cwd: path.join(__dirname, "..", "web"),
-    env: process.env,
-    stdio: ["pipe", "inherit", "inherit"],
-    encoding: "utf-8",
-  }
-);
-
-console.log(`✅ Done.`);
-console.log(
-  `- You can view the website at http://${DeployStack.NEWSNOWWEBBUCKETNAME}.s3.amazonaws.com/index.html`
-);
+spawnSync("npm", ["run", "dev"], {
+  cwd: path.join(__dirname, "..", "web"),
+  env: { ...process.env, ...envs },
+  stdio: ["pipe", "inherit", "inherit"],
+  encoding: "utf-8",
+});
