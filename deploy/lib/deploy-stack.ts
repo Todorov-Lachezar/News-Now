@@ -31,6 +31,22 @@ export class DeployStack extends cdk.Stack {
       })
     );
 
+    const transcribeRole = new iam.Role(this, "TranscribeRole", {
+      assumedBy: new iam.ServicePrincipal("transcribe.amazonaws.com"),
+    });
+
+    transcribeRole.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        resources: [`${newsNowBucket.bucketArn}/*`],
+        actions: ["s3:ListBucket", "s3:GetObject"],
+      })
+    );
+
+    transcribeRole.addManagedPolicy(
+      iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonTranscribeFullAccess")
+    );
+
     const queue = new sqs.Queue(this, "NewsNowQueue");
 
     const queryFunc = new lambda.Function(this, "QueryFunc", {
