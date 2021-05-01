@@ -1,5 +1,6 @@
 *.js
 !deploy.js
+!deploy_windows.js
 !jest.config.js
 *.d.ts
 node_modules
