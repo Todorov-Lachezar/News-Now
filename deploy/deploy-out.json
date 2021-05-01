@@ -1,9 +1,0 @@
-{
-  "DeployStack": {
-    "NewsNowSearchServiceLoadBalancerDNSE5B36625": "Deplo-NewsN-16BKN3F97DDWY-1404150248.us-east-1.elb.amazonaws.com",
-    "NEWSNOWAPIURL": "Deplo-NewsN-SQ6S9ZACQ42X-747036951.us-east-1.elb.amazonaws.com",
-    "NewsNowTrafficServiceLoadBalancerDNS8FC732A3": "Deplo-NewsN-SQ6S9ZACQ42X-747036951.us-east-1.elb.amazonaws.com",
-    "NewsNowSearchServiceServiceURL4F1C7B55": "http://Deplo-NewsN-16BKN3F97DDWY-1404150248.us-east-1.elb.amazonaws.com",
-    "NewsNowTrafficServiceServiceURL48127073": "http://Deplo-NewsN-SQ6S9ZACQ42X-747036951.us-east-1.elb.amazonaws.com"
-  }
-}
